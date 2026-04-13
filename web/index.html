@@ -1,11 +1,322 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <base href="$FLUTTER_BASE_HREF"> <meta charset="UTF-8">
-  <title>gitfetch</title>
-  ...
+  <base href="$FLUTTER_BASE_HREF">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="description" content="GitFetch - أداة قوية لإدارة وتحميل مستودعات Git">
+  <meta name="theme-color" content="#0D1117">
+  <title>GitFetch | إدارة مستودعات Git باحترافية</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #0a0c10 0%, #0D1117 100%);
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Animated background gradient */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 20% 50%, rgba(88, 166, 255, 0.05) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 80%, rgba(88, 166, 255, 0.05) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Loading Screen - Modern Design */
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #0a0c10 0%, #0D1117 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Logo container */
+    .logo-container {
+      text-align: center;
+      margin-bottom: 2rem;
+      animation: fadeInUp 0.8s ease-out;
+    }
+
+    .logo-icon {
+      font-size: 5rem;
+      background: linear-gradient(135deg, #58A6FF, #1F6FEB);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 1rem;
+    }
+
+    .logo-text {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #FFFFFF, #8B949E);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.5px;
+    }
+
+    .logo-sub {
+      font-size: 0.9rem;
+      color: #8B949E;
+      margin-top: 0.5rem;
+      font-weight: 500;
+    }
+
+    /* Modern progress bar */
+    .progress-wrapper {
+      width: 280px;
+      margin-top: 2rem;
+    }
+
+    .progress-bar-container {
+      width: 100%;
+      height: 4px;
+      background: rgba(139, 148, 158, 0.2);
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #58A6FF, #1F6FEB);
+      border-radius: 10px;
+      position: relative;
+      animation: loading 2.5s ease-in-out infinite;
+      box-shadow: 0 0 10px rgba(88, 166, 255, 0.5);
+    }
+
+    @keyframes loading {
+      0% {
+        width: 0%;
+        opacity: 0.5;
+      }
+      50% {
+        width: 70%;
+        opacity: 1;
+      }
+      100% {
+        width: 100%;
+        opacity: 0.5;
+      }
+    }
+
+    /* Loading text with dots animation */
+    .loading-text {
+      margin-top: 1rem;
+      color: #8B949E;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+
+    .loading-text::after {
+      content: '';
+      animation: dots 1.5s steps(4, end) infinite;
+    }
+
+    @keyframes dots {
+      0%, 20% { content: ''; }
+      40% { content: '.'; }
+      60% { content: '..'; }
+      80%, 100% { content: '...'; }
+    }
+
+    /* Animated circles decoration */
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(88, 166, 255, 0.1), rgba(31, 111, 235, 0.05));
+      pointer-events: none;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .circle-1 {
+      width: 300px;
+      height: 300px;
+      top: -150px;
+      left: -150px;
+      animation-delay: 0s;
+    }
+
+    .circle-2 {
+      width: 200px;
+      height: 200px;
+      bottom: -100px;
+      right: -100px;
+      animation-delay: 1s;
+      animation-duration: 8s;
+    }
+
+    .circle-3 {
+      width: 150px;
+      height: 150px;
+      top: 50%;
+      right: 10%;
+      animation-delay: 2s;
+      animation-duration: 7s;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0px) translateX(0px);
+        opacity: 0.5;
+      }
+      50% {
+        transform: translateY(-20px) translateX(10px);
+        opacity: 0.8;
+      }
+    }
+
+    /* Fade in animation */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Version badge */
+    .version-badge {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(13, 17, 23, 0.8);
+      backdrop-filter: blur(10px);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      color: #8B949E;
+      font-family: monospace;
+      z-index: 999;
+      border: 1px solid rgba(88, 166, 255, 0.2);
+      pointer-events: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .logo-text {
+        font-size: 1.8rem;
+      }
+      .logo-icon {
+        font-size: 3.5rem;
+      }
+      .progress-wrapper {
+        width: 240px;
+      }
+      .circle-3 {
+        display: none;
+      }
+    }
+
+    /* Hide loading screen when Flutter is ready */
+    body.ready #loading-screen {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    /* Flutter app container */
+    flutter-view {
+      display: block;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    body.ready flutter-view {
+      opacity: 1;
+    }
+  </style>
 </head>
 <body>
-  ...
+
+  <!-- Animated background circles -->
+  <div class="circle circle-1"></div>
+  <div class="circle circle-2"></div>
+  <div class="circle circle-3"></div>
+
+  <!-- Loading Screen -->
+  <div id="loading-screen">
+    <div class="logo-container">
+      <div class="logo-icon">
+        <i class="fab fa-git-alt"></i>
+      </div>
+      <div class="logo-text">GitFetch</div>
+      <div class="logo-sub">Smart Git Repository Manager</div>
+    </div>
+    
+    <div class="progress-wrapper">
+      <div class="progress-bar-container">
+        <div class="progress-bar"></div>
+      </div>
+      <div class="loading-text">Loading application</div>
+    </div>
+  </div>
+
+  <!-- Version info -->
+  <div class="version-badge">
+    <i class="fas fa-code-branch" style="font-size: 10px;"></i> v1.0.0 | Flutter Web
+  </div>
+
+  <!-- Flutter app will be mounted here -->
+  <flutter-view>
+    <script src="flutter.js" defer></script>
+  </flutter-view>
+
+  <script>
+    window.addEventListener('load', function(ev) {
+      // Download main.dart.js
+      _flutter.loader.loadEntrypoint({
+        serviceWorker: {
+          serviceWorkerVersion: serviceWorkerVersion,
+        },
+        onEntrypointLoaded: function(engineInitializer) {
+          engineInitializer.initializeEngine().then(function(appRunner) {
+            appRunner.runApp();
+            // Add ready class to body when Flutter app is ready
+            setTimeout(() => {
+              document.body.classList.add('ready');
+            }, 500);
+          });
+        }
+      });
+    });
+  </script>
 </body>
 </html>
