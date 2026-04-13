@@ -298,25 +298,23 @@
   <flutter-view>
     <script src="flutter.js" defer></script>
   </flutter-view>
-
-  <script>
-    window.addEventListener('load', function(ev) {
-      // Download main.dart.js
-      _flutter.loader.loadEntrypoint({
-        serviceWorker: {
-          serviceWorkerVersion: serviceWorkerVersion,
-        },
-        onEntrypointLoaded: function(engineInitializer) {
-          engineInitializer.initializeEngine().then(function(appRunner) {
-            appRunner.runApp();
-            // Add ready class to body when Flutter app is ready
+<script>
+  window.addEventListener('load', function(ev) {
+    // تحميل محرك Flutter
+    _flutter.loader.loadEntrypoint({
+      onEntrypointLoaded: function(engineInitializer) {
+        engineInitializer.initializeEngine().then(function(appRunner) {
+          appRunner.runApp().then(function() {
+            // كود السحر: عندما يعمل التطبيق فعلياً، أضف كلاس 'ready' للجسم
+            console.log("Flutter App is Ready!");
             setTimeout(() => {
               document.body.classList.add('ready');
-            }, 500);
+            }, 1000); // تأخير بسيط لضمان سلاسة الانتقال
           });
-        }
-      });
+        });
+      }
     });
-  </script>
+  });
+</script>
 </body>
 </html>
