@@ -19,31 +19,18 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.0'
+          flutter-version: '3.41.6'
           channel: 'stable'
-      
-      - name: Debug - List all files
-        run: |
-          echo "Listing all files in repository:"
-          ls -la
-          echo ""
-          echo "Checking if web folder exists:"
-          ls -la web/ || echo "web folder does NOT exist!"
       
       - name: Install dependencies
         run: flutter pub get
       
-      - name: Try to build and show full error
-        run: |
-          flutter build web --release || {
-            echo "========================================="
-            echo "BUILD FAILED! Showing flutter doctor:"
-            echo "========================================="
-            flutter doctor -v
-            exit 1
-          }
+      - name: Build Flutter Web
+        # أضفنا --base-href للتأكد من أن الروابط تعمل بشكل صحيح على GitHub Pages
+        run: flutter build web --release --base-href "/${{ github.event.repository.name }}/"
       
-      - uses: actions/upload-pages-artifact@v3
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
           path: build/web
 
