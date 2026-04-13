@@ -15,11 +15,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
+      
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.24.0'
-      - run: flutter pub get
-      - run: flutter build web --release
+          channel: 'stable'
+      
+      - name: List files before build (للتحقق من وجود web/index.html)
+        run: ls -la web/
+      
+      - name: Install dependencies
+        run: flutter pub get
+      
+      - name: Build web
+        run: flutter build web --release
+      
       - uses: actions/upload-pages-artifact@v3
         with:
           path: build/web
