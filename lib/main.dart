@@ -26,10 +26,10 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('GitFetch - Success! 🚀'),
-        backgroundColor: Colors.green,
-        foregroundColor: Colors.white,
+      appBar: // في ملف main.dart
+      AppBar(
+        title: const Text('Jafar GitHub Actions Test'), // غير هذا النص
+        backgroundColor: Colors.deepPurple, // جرب تغيير اللون أيضاً
       ),
       body: Center(
         child: Column(
