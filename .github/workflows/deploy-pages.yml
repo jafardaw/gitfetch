@@ -22,14 +22,26 @@ jobs:
           flutter-version: '3.24.0'
           channel: 'stable'
       
-      - name: List files before build (للتحقق من وجود web/index.html)
-        run: ls -la web/
+      - name: Debug - List all files
+        run: |
+          echo "Listing all files in repository:"
+          ls -la
+          echo ""
+          echo "Checking if web folder exists:"
+          ls -la web/ || echo "web folder does NOT exist!"
       
       - name: Install dependencies
         run: flutter pub get
       
-      - name: Build web
-        run: flutter build web --release
+      - name: Try to build and show full error
+        run: |
+          flutter build web --release || {
+            echo "========================================="
+            echo "BUILD FAILED! Showing flutter doctor:"
+            echo "========================================="
+            flutter doctor -v
+            exit 1
+          }
       
       - uses: actions/upload-pages-artifact@v3
         with:
