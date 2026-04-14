@@ -29,7 +29,7 @@ class MyHomePage extends StatelessWidget {
       appBar: // في ملف main.dart
       AppBar(
         title: const Text('Jafar GitHub Actions Test'), // غير هذا النص
-        backgroundColor: Colors.green, // جرب تغيير اللون أيضاً
+        backgroundColor: Colors.purple, // جرب تغيير اللون أيضاً
       ),
       body: Center(
         child: Column(
@@ -38,12 +38,12 @@ class MyHomePage extends StatelessWidget {
             const Icon(Icons.check_circle, size: 80, color: Colors.green),
             const SizedBox(height: 20),
             const Text(
-              'Deployment success!',
+              ' Success!',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
             Text(
-              'GitHub  + Flutter Web',
+              'GitHub  + Flutter ',
               style: TextStyle(fontSize: 16, color: Colors.grey[600]),
             ),
             const SizedBox(height: 30),
@@ -52,7 +52,7 @@ class MyHomePage extends StatelessWidget {
                 // زر تجريبي
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
+                backgroundColor: Colors.purple,
                 foregroundColor: Colors.white,
               ),
               child: const Text('Click Me'),
